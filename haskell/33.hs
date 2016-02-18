@@ -3,6 +3,11 @@ module ProjectEuler.Problem33 where
 type RepeatingDigitsFraction a = (a,a,a)
 type Fraction a = (a, a)
 
+answer33 = (numerator, denominator)
+    where
+        numerator = foldr ((*) . fst) 1 twoDigitsCuriosFractions
+        denominator = foldr ((*). snd) 1 twoDigitsCuriosFractions
+
 twoDigitsCuriosFractions :: [Fraction Integer]
 twoDigitsCuriosFractions =
     concatMap curiousFraction [(a,b,c) | a <- [1..9], b <- [1..9], c <- [1..9]]
