@@ -1,25 +1,23 @@
 module ProjectEuler.Problem33 where
 
+import Data.Ratio
+
 type RepeatingDigitsFraction a = (a,a,a)
-type Fraction a = (a, a)
 
-answer33 = (numerator, denominator)
-    where
-        numerator = foldr ((*) . fst) 1 twoDigitsCuriosFractions
-        denominator = foldr ((*). snd) 1 twoDigitsCuriosFractions
+answer33 :: Integer
+answer33 = denominator $ product twoDigitsCuriosFractions
 
-twoDigitsCuriosFractions :: [Fraction Integer]
+twoDigitsCuriosFractions :: [Ratio Integer]
 twoDigitsCuriosFractions =
     concatMap curiousFraction [(a,b,c) | a <- [1..9], b <- [1..9], c <- [1..9]]
 
-curiousFraction :: (Integral a, Ord a) =>
-                      RepeatingDigitsFraction a -> [Fraction a]
+curiousFraction :: RepeatingDigitsFraction Integer -> [Ratio Integer]
 curiousFraction (a, b, c)
     | a == b || b == c || a == c = []
-    | ab_c == a * bc = [(ab, bc) | ab < bc]
-    | ab_c == a * cb = [(ab, cb) | ab < cb]
-    | ab_c == b * ac = [(ab, ac) | ab < ac]
-    | ab_c == b * ca = [(ab, ca) | ab < ca]
+    | ab_c == a * bc = [ab % bc | ab < bc]
+    | ab_c == a * cb = [ab % cb | ab < cb]
+    | ab_c == b * ac = [ab % ac | ab < ac]
+    | ab_c == b * ca = [ab % ca | ab < ca]
     | otherwise = []
     where
         ab_c = (10 * a + b) * c
