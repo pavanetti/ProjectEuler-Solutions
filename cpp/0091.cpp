@@ -16,11 +16,13 @@ int main(int argc, char* argv[]) {
             int x2 = j / size, y2 = j % size;
             int dx = x2 - x1, dy = y2 - y1;
 
-            int sq1 = x1 * x1 + y1 * y1;
-            int sq2 = x2 * x2 + y2 * y2;
-            int sq3 = dx * dx + dy * dy;
-            int hyp = std::max(sq1, std::max(sq2, sq3));
-            if (sq1 + sq2 + sq3 == 2 * hyp) {
+            int dp1 = x1 * x2 + y1 * y2;
+            int dp2 = x1 * dx + y1 * dy;
+            int dp3 = x2 * dx + y2 * dy;
+            // if some of the dot products between some of the sides is 0,
+            // then the sides are perpendicular to each other and the triangle
+            // is a right triangle.
+            if (dp1 == 0 || dp2 == 0 || dp3 == 0) {
                 count++;
             }
         }
